@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rouss Poleth | Makeup Store</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           1. SETUP & CUSTOM PROPERTIES (Palette: Warm Sand, Terracotta, Luxe Gold)
+           ========================================================================== */
+        :root {
+            --bg-base: #f7ebe1;
+            --bg-surface: #fdf8f4;
+            --bg-card: rgba(255, 255, 255, 0.65);
+            
+            --primary: #a6523f;        /* Terracotta Warm */
+            --primary-dark: #7c3525;   /* Deep Terracotta */
+            --secondary: #d99b82;      /* Warm Nude */
+            --accent-gold: #d4af37;    /* Luxe Gold Accent */
+            --text-main: #3d2b27;      /* Dark Bronze / Deep Warm Brown */
+            --text-light: #7a655e;     /* Soft Muted Brown */
+            
+            --glow-gold: 0 0 25px rgba(212, 175, 55, 0.45);
+            --glow-terracotta: 0 0 30px rgba(166, 82, 63, 0.35);
+            --shadow-soft: 0 15px 35px rgba(61, 43, 39, 0.08);
+            --shadow-hover: 0 25px 45px rgba(61, 43, 39, 0.15);
+            
+            --font-cursive: 'Alex Brush', cursive;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Montserrat', sans-serif;
+        }
+
+        /* Base Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(217, 155, 130, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.15) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        /* Keyframes Animations */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1deg); }
+        }
+
+        @keyframes shimmerGlow {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        @keyframes pulseLight {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.08); }
+        }
+
+        @keyframes titleAppear {
+            from { opacity: 0; transform: translateY(30px); filter: blur(10px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        /* ==========================================================================
+           2. HEADER & HERO SECTION
+           ========================================================================== */
+        header {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem 1rem;
+            position: relative;
+        }
+
+        .light-orb {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(217, 155, 130, 0.2) 40%, transparent 70%);
+            filter: blur(50px);
+            z-index: 0;
+            animation: pulseLight 8s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        .hero-container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            animation: titleAppear 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* HERO LOGO: 4 CROPPED ICONS COMPOSITE + HTML TEXT */
+        .brand-hero-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .graphics-grid-header {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 420px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: var(--shadow-hover), var(--glow-gold);
+            animation: floatSlow 6s ease-in-out infinite;
+        }
+
+        .hero-icon-img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 8px rgba(61, 43, 39, 0.15));
+        }
+
+        /* TEXTO SEPARADO EN HTML */
+        .brand-text-container {
+            text-align: center;
+        }
+
+        .brand-name {
+            font-family: var(--font-cursive);
+            font-size: clamp(3.5rem, 8vw, 5.5rem);
+            color: var(--primary);
+            line-height: 1;
+            text-shadow: 2px 2px 4px rgba(61, 43, 39, 0.1);
+        }
+
+        .brand-sub {
+            font-family: var(--font-sans);
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            font-weight: 500;
+            color: var(--text-main);
+            margin-top: 0.5rem;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 1rem 2.8rem;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-weight: 600;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
+            background-size: 200% auto;
+            box-shadow: var(--shadow-soft), var(--glow-terracotta);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-btn:hover {
+            background-position: right center;
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow-hover), var(--glow-gold);
+        }
+
+        /* ==========================================================================
+           3. CSS SCROLL REVEAL
+           ========================================================================== */
+        @supports (view-timeline-name: --item-timeline) {
+            .scroll-reveal {
+                animation: revealOnScroll linear both;
+                animation-timeline: view();
+                animation-range: entry 10% cover 30%;
+            }
+
+            @keyframes revealOnScroll {
+                from {
+                    opacity: 0;
+                    transform: translateY(50px) scale(0.95);
+                    filter: blur(8px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                    filter: blur(0);
+                }
+            }
+        }
+
+        .scroll-reveal {
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ==========================================================================
+           4. PRODUCT CATALOG SECTION
+           ========================================================================== */
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 1.5rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--text-main);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+            margin: 0.5rem auto 0;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 1.8rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            transform: rotate(30deg);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-hover), 0 0 20px rgba(212, 175, 55, 0.2);
+            border-color: rgba(212, 175, 55, 0.5);
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        .product-img-wrapper {
+            position: relative;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            border-radius: 12px;
+            background: radial-gradient(circle, rgba(253, 248, 244, 0.9) 0%, rgba(247, 235, 225, 0.5) 100%);
+            overflow: hidden;
+        }
+
+        .cropped-canvas-img {
+            max-width: 85%;
+            max-height: 85%;
+            object-fit: contain;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            filter: drop-shadow(0 8px 15px rgba(61, 43, 39, 0.15));
+        }
+
+        .product-card:hover .cropped-canvas-img {
+            transform: scale(1.12) rotate(3deg);
+        }
+
+        .product-title {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            color: var(--text-main);
+            margin-bottom: 0.4rem;
+        }
+
+        .product-desc {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary-dark);
+        }
+
+        /* BANNER */
+        .banner-glow {
+            margin: 4rem 0;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            border-radius: 30px;
+            padding: 4rem 2rem;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--glow-terracotta);
+        }
+
+        .banner-glow::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.25) 50%, 
+                transparent 100%
+            );
+            transform: skewX(-25deg);
+            animation: shimmerGlow 6s infinite;
+        }
+
+        .banner-glow h2 {
+            font-family: var(--font-serif);
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            margin-bottom: 1rem;
+        }
+
+        .banner-glow p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #2b1d1a;
+            color: #e5d4ce;
+            padding: 4rem 1.5rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .footer-logo {
+            font-family: var(--font-cursive);
+            font-size: 3.5rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #e5d4ce;
+            text-decoration: none;
+            transition: color 0.3rem;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        .copyright {
+            font-size: 0.8rem;
+            opacity: 0.5;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 2rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="light-orb"></div>
+
+    <!-- HERO / HEADER SECTION -->
+    <header>
+        <div class="hero-container">
+            
+            <div class="brand-hero-box">
+
+                <!-- TEXTO DEL LOGO AHORA EN HTML PURO (SEPARADO TOTALMENTE) -->
+                <div class="brand-text-container">
+                    <h1 class="brand-name">Rouss Poleth</h1>
+                    <div class="brand-sub">Makeup Store</div>
+                </div>
+            </div>
+            
+            <a href="#catalogo" class="cta-btn">Explorar Colección</a>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT / CATALOG -->
+    <main class="section-container" id="catalogo">
+        
+        <div class="section-header scroll-reveal">
+            <h2 class="section-title">Nuestros Favoritos</h2>
+            <p style="color: var(--text-light); margin-top: 0.8rem;">Descubre el toque perfecto para resaltar tu belleza natural</p>
+        </div>
+
+        <div class="products-grid">
+            
+            <!-- Card 1: Dibujo Ojo/Delineado -->
+            <article class="product-card scroll-reveal">
+                <div class="product-img-wrapper">
+                    <img id="crop-eyeliner" class="cropped-canvas-img" alt="Delineador Precision Wing">
+                </div>
+                <h3 class="product-title">Delineador Precision Wing</h3>
+                <p class="product-desc">Trazo fino e intenso que define tu mirada con elegancia.</p>
+                <div class="product-price">$16.00</div>
+            </article>
+
+            <!-- Card 2: Dibujo Labial y Beso -->
+            <article class="product-card scroll-reveal">
+                <div class="product-img-wrapper">
+                    <img id="crop-lipstick" class="cropped-canvas-img" alt="Labial Velvet Matte">
+                </div>
+                <h3 class="product-title">Labial Velvet Matte</h3>
+                <p class="product-desc">Textura sedosa de larga duración con pigmentación intensa.</p>
+                <div class="product-price">$18.00</div>
+            </article>
+
+            <!-- Card 3: Dibujo Pestaña y Máscara -->
+            <article class="product-card scroll-reveal">
+                <div class="product-img-wrapper">
+                    <img id="crop-mascara" class="cropped-canvas-img" alt="Máscara Lash Volume">
+                </div>
+                <h3 class="product-title">Máscara Lash Volume</h3>
+                <p class="product-desc">Volumen extremo y curva perfecta sin grumos.</p>
+                <div class="product-price">$20.00</div>
+            </article>
+
+            <!-- Card 4: Dibujo Polvo Compacto y Brocha -->
+            <article class="product-card scroll-reveal">
+                <div class="product-img-wrapper">
+                    <img id="crop-powder" class="cropped-canvas-img" alt="Polvo Compacto Suntuoso">
+                </div>
+                <h3 class="product-title">Polvo Compacto Suntuoso</h3>
+                <p class="product-desc">Acabado ligero que elimina el brillo con un toque natural.</p>
+                <div class="product-price">$24.00</div>
+            </article>
+
+	    <!-- Card 5: Dibujo Gloss -->
+            <article class="product-card scroll-reveal">
+                <div class="product-img-wrapper">
+                    <img src="Rouss_Poleth_Makeup_Store.jpeg" class="cropped-canvas-img" alt="Gloss cambia con PH">
+                </div>
+                <h3 class="product-title">Gloss cambia con PH</h3>
+                <p class="product-desc">Gloss que cambia con el PH del cuerpo.</p>
+                <div class="product-price">22 Bs.</div>
+            </article>
+
+	    <!-- Card 6: Dibujo Loydita -->
+            <article class="product-card scroll-reveal">
+                <div class="product-img-wrapper">
+                    <img src="Rouss_Poleth_Makeup_Store.jpeg" class="cropped-canvas-img" alt="Gloss cambia con PH">
+                </div>
+                <h3 class="product-title">Pichula</h3>
+                <p class="product-desc">A Loydita le encanta moverse ahi</p>
+                <div class="product-price">1000000 Bs.</div>
+            </article>
+
+        </div>
+
+        <section class="banner-glow scroll-reveal">
+            <h2>Resalta tu esencia única</h2>
+            <p>Cosméticos diseñados para realzar tu confianza con elegancia y sofisticación.</p>
+            <a href="#contacto" class="cta-btn" style="background: #fff; color: var(--primary-dark);">Descubrir Más</a>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="contacto">
+        <div class="footer-logo">Rouss Poleth</div>
+        <ul class="footer-links">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#catalogo">Colección</a></li>
+            <li><a href="#">Nosotros</a></li>
+            <li><a href="#">Contacto</a></li>
+        </ul>
+        <p class="copyright">&copy; 2026 Rouss Poleth Makeup Store. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- AUTOMATIC GRAPHIC CROPPING SCRIPT (SIN TEXTOS) -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const srcImage = new Image();
+            srcImage.src = 'Rouss_Poleth_Makeup_Store.jpeg';
+            
+            srcImage.onload = () => {
+                const W = srcImage.naturalWidth;
+                const H = srcImage.naturalHeight;
+
+                function extractShape(cropX, cropY, cropW, cropH, targetImgIds) {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = cropW;
+                    canvas.height = cropH;
+                    const ctx = canvas.getContext('2d');
+
+                    // Dibujar el fragmento recortado
+                    ctx.drawImage(srcImage, cropX, cropY, cropW, cropH, 0, 0, cropW, cropH);
+
+                    // Quitar el fondo beige para hacer transparente el dibujo
+                    const imgData = ctx.getImageData(0, 0, cropW, cropH);
+                    const data = imgData.data;
+
+                    for (let i = 0; i < data.length; i += 4) {
+                        const r = data[i];
+                        const g = data[i + 1];
+                        const b = data[i + 2];
+
+                        // Si es el tono claro del fondo, lo volvemos transparente
+                        if (r > 210 && g > 190 && b > 175) {
+                            data[i + 3] = 0;
+                        }
+                    }
+
+                    ctx.putImageData(imgData, 0, 0);
+                    const dataUrl = canvas.toDataURL('image/png');
+
+                    // Asignar a los elementos indicados
+                    targetImgIds.forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) el.src = dataUrl;
+                    });
+                }
+
+                // RECORTE ÚNICAMENTE DE LOS GRÁFICOS / DIBUJOS (EVITANDO LAS LETRAS DE ABAJO)
+                // 1. Ojo Delineado (Esquina superior izquierda)
+                extractShape(W * 0.18, H * 0.20, W * 0.28, H * 0.26, ['crop-eyeliner', 'hero-crop-1']);
+
+                // 2. Labial y Beso (Esquina superior derecha)
+                extractShape(W * 0.54, H * 0.20, W * 0.28, H * 0.26, ['crop-lipstick', 'hero-crop-2']);
+
+                // 3. Pestaña y Brocha (Esquina inferior izquierda - solo gráfico)
+                extractShape(W * 0.18, H * 0.48, W * 0.28, H * 0.25, ['crop-mascara', 'hero-crop-3']);
+
+                // 4. Polvo y Rubor (Esquina inferior derecha - solo gráfico)
+                extractShape(W * 0.54, H * 0.48, W * 0.28, H * 0.25, ['crop-powder', 'hero-crop-4']);
+            };
+        });
+    </script>
+</body>
+</html>

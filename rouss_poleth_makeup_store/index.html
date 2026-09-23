@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rouss Poleth | Makeup Store</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           1. SETUP & CUSTOM PROPERTIES (Palette: Sand, Warm Nude, Terracotta, Gold)
+           ========================================================================== */
+        :root {
+            --bg-base: #f7ebe1;
+            --bg-surface: #fdf8f4;
+            --bg-card: rgba(255, 255, 255, 0.65);
+            
+            --primary: #a6523f;        /* Terracotta Warm */
+            --primary-dark: #7c3525;   /* Deep Terracotta */
+            --secondary: #d99b82;      /* Warm Nude */
+            --accent-gold: #d4af37;    /* Luxe Gold Accent */
+            --text-main: #3d2b27;      /* Dark Bronze / Deep Warm Brown */
+            --text-light: #7a655e;     /* Soft Muted Brown */
+            
+            --glow-gold: 0 0 25px rgba(212, 175, 55, 0.45);
+            --glow-terracotta: 0 0 30px rgba(166, 82, 63, 0.35);
+            --shadow-soft: 0 15px 35px rgba(61, 43, 39, 0.08);
+            --shadow-hover: 0 25px 45px rgba(61, 43, 39, 0.15);
+            
+            --font-cursive: 'Alex Brush', cursive;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Montserrat', sans-serif;
+        }
+
+        /* Base Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(217, 155, 130, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.15) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        /* Keyframes Animations */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1.5deg); }
+        }
+
+        @keyframes shimmerGlow {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        @keyframes pulseLight {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.08); }
+        }
+
+        @keyframes titleAppear {
+            from { opacity: 0; transform: translateY(30px); filter: blur(10px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        /* ==========================================================================
+           2. HEADER & HERO SECTION
+           ========================================================================== */
+        header {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem 1rem;
+            position: relative;
+        }
+
+        /* Optical Lighting Orb in Header */
+        .light-orb {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(217, 155, 130, 0.2) 40%, transparent 70%);
+            filter: blur(50px);
+            z-index: 0;
+            animation: pulseLight 8s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        .hero-container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            animation: titleAppear 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .slogan-top {
+            font-family: var(--font-cursive);
+            font-size: clamp(2.2rem, 5vw, 3.8rem);
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(166, 82, 63, 0.15);
+            letter-spacing: 1px;
+            animation: floatSlow 6s ease-in-out infinite;
+        }
+
+        .illustration-wrapper {
+            margin: 1.5rem auto;
+            position: relative;
+            display: inline-block;
+        }
+
+        .brand-vector-art {
+            width: clamp(220px, 35vw, 320px);
+            height: auto;
+            filter: drop-shadow(0 15px 25px rgba(61, 43, 39, 0.12));
+            transition: transform 0.5s ease;
+        }
+
+        .brand-vector-art:hover {
+            transform: scale(1.04) rotate(-1deg);
+        }
+
+        .brand-title {
+            font-family: var(--font-cursive);
+            font-size: clamp(4rem, 10vw, 7.5rem);
+            color: var(--text-main);
+            line-height: 0.9;
+            margin-top: 1rem;
+            background: linear-gradient(135deg, #3d2b27 0%, #a6523f 50%, #7c3525 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.05));
+        }
+
+        .brand-subtitle {
+            font-family: var(--font-sans);
+            font-size: clamp(0.9rem, 2vw, 1.3rem);
+            letter-spacing: 0.45em;
+            text-transform: uppercase;
+            font-weight: 500;
+            color: var(--primary);
+            margin-top: 1rem;
+            position: relative;
+            display: inline-block;
+            padding: 0 10px;
+        }
+
+        .brand-subtitle::before, .brand-subtitle::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 30px;
+            height: 1px;
+            background-color: var(--primary);
+        }
+        .brand-subtitle::before { left: -35px; }
+        .brand-subtitle::after { right: -35px; }
+
+        .cta-btn {
+            display: inline-block;
+            margin-top: 2.5rem;
+            padding: 1rem 2.8rem;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-weight: 600;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
+            background-size: 200% auto;
+            box-shadow: var(--shadow-soft), var(--glow-terracotta);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-btn:hover {
+            background-position: right center;
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow-hover), var(--glow-gold);
+        }
+
+        /* ==========================================================================
+           3. CSS MODERNO & SCROLL ANIMATIONS (view-timeline)
+           ========================================================================== */
+        @supports (view-timeline-name: --item-timeline) {
+            .scroll-reveal {
+                animation: revealOnScroll linear both;
+                animation-timeline: view();
+                animation-range: entry 10% cover 30%;
+            }
+
+            @keyframes revealOnScroll {
+                from {
+                    opacity: 0;
+                    transform: translateY(50px) scale(0.95);
+                    filter: blur(8px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                    filter: blur(0);
+                }
+            }
+        }
+
+        /* Fallback transitions */
+        .scroll-reveal {
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ==========================================================================
+           4. PRODUCT CATALOG SECTION
+           ========================================================================== */
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 1.5rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--text-main);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+            margin: 0.5rem auto 0;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        /* Card with Optical & Light Effect */
+        .product-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 1.8rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Optical Lighting Border on Hover */
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            transform: rotate(30deg);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-hover), 0 0 20px rgba(212, 175, 55, 0.2);
+            border-color: rgba(212, 175, 55, 0.5);
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        .product-img-wrapper {
+            position: relative;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            border-radius: 12px;
+            background: radial-gradient(circle, rgba(253, 248, 244, 0.8) 0%, rgba(247, 235, 225, 0.4) 100%);
+            overflow: hidden;
+        }
+
+        /* Soporte para SVG e Imágenes reales */
+	.product-img-wrapper svg,
+	.product-img-wrapper img {
+    	    max-width: 80%;
+            max-height: 80%;
+    	    object-fit: contain;
+    	    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    	    filter: drop-shadow(0 8px 15px rgba(61, 43, 39, 0.1));
+	}
+
+	/* Animación de movimiento al pasar el mouse sobre la tarjeta */
+	.product-card:hover .product-img-wrapper svg,
+	.product-card:hover .product-img-wrapper img {
+    	    transform: scale(1.15) rotate(3deg);
+	}
+
+        .product-title {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            color: var(--text-main);
+            margin-bottom: 0.4rem;
+        }
+
+        .product-desc {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary-dark);
+        }
+
+        /* ==========================================================================
+           5. BANNER OFERTA CON EFECTO OPTICO DE LUZ
+           ========================================================================== */
+        .banner-glow {
+            margin: 4rem 0;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            border-radius: 30px;
+            padding: 4rem 2rem;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--glow-terracotta);
+        }
+
+        /* Shimmer Beam Effect */
+        .banner-glow::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.25) 50%, 
+                transparent 100%
+            );
+            transform: skewX(-25deg);
+            animation: shimmerGlow 6s infinite;
+        }
+
+        .banner-glow h2 {
+            font-family: var(--font-serif);
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            margin-bottom: 1rem;
+        }
+
+        .banner-glow p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* ==========================================================================
+           6. FOOTER & CONTACT
+           ========================================================================== */
+        footer {
+            background: #2b1d1a;
+            color: #e5d4ce;
+            padding: 4rem 1.5rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .footer-logo {
+            font-family: var(--font-cursive);
+            font-size: 3.5rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #e5d4ce;
+            text-decoration: none;
+            transition: color 0.3rem;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        .copyright {
+            font-size: 0.8rem;
+            opacity: 0.5;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 2rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LIGHTING ORB BACKGROUND -->
+    <div class="light-orb"></div>
+
+    <!-- HERO / HEADER SECTION -->
+    <header>
+        <div class="hero-container">
+            <div class="slogan-top">Un toquesito y ya...</div>
+            
+            <div class="illustration-wrapper">
+                <!-- SVG Art inspired by uploaded logo: Lipstick + Compact Mirror -->
+                <svg class="brand-vector-art" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Glow Defs -->
+                    <defs>
+                        <linearGradient id="lipstickGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#b84a39"/>
+                            <stop offset="100%" stop-color="#6e2317"/>
+                        </linearGradient>
+                        <linearGradient id="goldCase" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#d99b82"/>
+                            <stop offset="50%" stop-color="#f5d0c3"/>
+                            <stop offset="100%" stop-color="#a6523f"/>
+                        </linearGradient>
+                        <linearGradient id="powderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ebd5c4"/>
+                            <stop offset="100%" stop-color="#c99f87"/>
+                        </linearGradient>
+                        <filter id="glowEffect" x="-20%" y="-20%" width="140%" height="140%">
+                            <feGaussianBlur stdDeviation="8" result="blur" />
+                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                        </filter>
+                    </defs>
+
+                    <!-- Lipstick -->
+                    <g transform="translate(80, 70)">
+                        <!-- Base Tube -->
+                        <rect x="35" y="110" width="40" height="70" rx="4" fill="url(#goldCase)" />
+                        <!-- Inner Gold Ring -->
+                        <rect x="38" y="90" width="34" height="20" rx="2" fill="#d4af37" />
+                        <!-- Bullet -->
+                        <path d="M40 90 C40 50, 60 30, 70 30 C73 30, 73 50, 73 90 Z" fill="url(#lipstickGrad)" />
+                        <ellipse cx="55" cy="45" rx="4" ry="12" fill="rgba(255,255,255,0.3)" transform="rotate(-15 55 45)"/>
+                    </g>
+
+                    <!-- Compact Powder (Opened) -->
+                    <g transform="translate(190, 80)">
+                        <!-- Bottom Case -->
+                        <ellipse cx="90" cy="130" rx="75" ry="35" fill="#a6523f" />
+                        <ellipse cx="90" cy="125" rx="68" ry="30" fill="url(#powderGrad)" />
+                        <ellipse cx="90" cy="125" rx="55" ry="22" fill="#f5e5d8" />
+                        
+                        <!-- Top Lid (Angled) -->
+                        <path d="M 15 125 C 15 60, 165 60, 165 125 Z" fill="url(#goldCase)" transform="rotate(-25 90 125)"/>
+                        <ellipse cx="80" cy="75" rx="55" ry="20" fill="url(#powderGrad)" opacity="0.7" transform="rotate(-25 90 125)"/>
+                    </g>
+                    
+                    <!-- Sparkles / Light highlights -->
+                    <circle cx="150" cy="60" r="4" fill="#d4af37" filter="url(#glowEffect)"/>
+                    <circle cx="280" cy="100" r="6" fill="#fff" filter="url(#glowEffect)"/>
+                    <circle cx="110" cy="180" r="3" fill="#fff"/>
+                </svg>
+            </div>
+
+            <h1 class="brand-title">Rouss Poleth</h1>
+            <div class="brand-subtitle">Makeup Store</div>
+            
+            <br>
+            <a href="#catalogo" class="cta-btn">Explorar Colección</a>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT / CATALOG -->
+    <main class="section-container" id="catalogo">
+        
+        <div class="section-header scroll-reveal">
+            <h2 class="section-title">Nuestros Favoritos</h2>
+            <p style="color: var(--text-light); margin-top: 0.8rem;">Descubre el toque perfecto para resaltar tu belleza natural</p>
+        </div>
+
+        <div class="products-grid">
+            
+            <!-- Card 1 -->
+            <article class="product-card scroll-reveal">
+                <div class="product-img-wrapper">
+                    <img src="Rouss_Poleth_Makeup_Store.jpeg" alt="Labial Velvet Matte" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                </div>
+                <h3 class="product-title">Labial Velvet Matte</h3>
+                <p class="product-desc">Textura sedosa de larga duración con pigmentación intensa.</p>
+                <div class="product-price">$18.00</div>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="product-card scroll-reveal">
+                <div class="product-img-wrapper">
+                    <img src="Rouss_Poleth_Makeup_Store.jpeg" alt="Labial Velvet Matte" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                </div>
+                <h3 class="product-title">Polvo Compacto Suntuoso</h3>
+                <p class="product-desc">Acabado ligero que elimina el brillo con un toque natural.</p>
+                <div class="product-price">$24.00</div>
+            </article>
+
+            <!-- Card 3 -->
+            <article class="product-card scroll-reveal">
+                <div class="product-img-wrapper">
+                    <img src="Rouss_Poleth_Makeup_Store.jpeg" alt="Labial Velvet Matte" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                </div>
+                <h3 class="product-title">Paleta de Sombras Terra</h3>
+                <p class="product-desc">Tonos cálidos, nudes y dorados para cualquier ocasión.</p>
+                <div class="product-price">$32.00</div>
+            </article>
+
+            <!-- Card 4 -->
+            <article class="product-card scroll-reveal">
+                <div class="product-img-wrapper">
+                    <img src="Rouss_Poleth_Makeup_Store.jpeg" alt="Labial Velvet Matte" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                </div>
+                <h3 class="product-title">Iluminador Glow Liquid</h3>
+                <p class="product-desc">Destellos de luz sutiles que aportan vitalidad instantánea.</p>
+                <div class="product-price">$22.00</div>
+            </article>
+
+	    <!-- Card 5 -->
+            <article class="product-card scroll-reveal">
+                <div class="product-img-wrapper">
+                    <img src="Rouss_Poleth_Makeup_Store.jpeg" alt="Labial Velvet Matte" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                </div>
+                <h3 class="product-title">Loydita en 4</h3>
+                <p class="product-desc">Vaquero vaquero!!!</p>
+                <div class="product-price">1 Pichula</div>
+            </article>
+
+        </div>
+
+        <!-- SPECIAL BANNER WITH OPTICAL SHIMMER -->
+        <section class="banner-glow scroll-reveal">
+            <h2>Resalta tu esencia única</h2>
+            <p>Cosméticos diseñados para realzar tu confianza con elegancia y sofisticación.</p>
+            <a href="#contacto" class="cta-btn" style="background: #fff; color: var(--primary-dark);">Descubrir Más</a>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="contacto">
+        <div class="footer-logo">Rouss Poleth</div>
+        <ul class="footer-links">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#catalogo">Colección</a></li>
+            <li><a href="#">Nosotros</a></li>
+            <li><a href="#">Contacto</a></li>
+        </ul>
+        <p class="copyright">&copy; 2026 Rouss Poleth Makeup Store. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>
